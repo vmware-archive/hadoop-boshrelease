@@ -1,0 +1,5 @@
+check process gangliaweb
+  with pidfile /var/vcap/sys/run/gangliaweb/httpd.pid
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger gangliaweb_ctl '/var/vcap/jobs/gangliaweb/bin/gangliaweb_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger gangliaweb_ctl '/var/vcap/jobs/gangliaweb/bin/gangliaweb_ctl stop'"
+  group vcap

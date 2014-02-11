@@ -1,0 +1,59 @@
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Detect # of CPUs so make jobs can be parallelized
+CPUS=`grep -c ^processor /proc/cpuinfo`
+
+# We grab the latest versions that are in the directory
+APR_VERSION=`ls -r apr/apr-*.tar.gz | grep -v 'util' | sed 's/apr\/apr-\(.*\)\.tar\.gz/\1/' | head -1`
+APR_UTIL_VERSION=`ls -r apr/apr-util-*.tar.gz | sed 's/apr\/apr-util-\(.*\)\.tar\.gz/\1/' | head -1`
+HTTPD_VERSION=`ls -r apache2/httpd-*.tar.gz | sed 's/apache2\/httpd-\(.*\)\.tar\.gz/\1/' | head -1`
+PCRE_VERSION=`ls -r pcre/pcre-*.tar.gz | sed 's/pcre\/pcre-\(.*\)\.tar\.gz/\1/' | head -1`
+
+# Extract APR package
+echo "Extracting APR ${APR_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/apr/apr-${APR_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting APR ${APR_VERSION}"
+  exit 1
+fi
+
+# Extract APR Util package
+echo "Extracting APR Util ${APR_UTIL_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/apr/apr-util-${APR_UTIL_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting APR Util ${APR_UTIL_VERSION}"
+  exit 1
+fi
+
+# Extract Apache HTTPD package
+echo "Extracting Apache HTTPD ${HTTPD_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/apache2/httpd-${HTTPD_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Apache HTTPD ${HTTPD_VERSION}"
+  exit 1
+fi
+
+# Extract PCRE package
+echo "Extracting PCRE ${PCRE_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/pcre/pcre-${PCRE_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting PCRE ${PCRE_VERSION}"
+  exit 1
+fi
+
+# Build PCRE package
+echo "Building PCRE ${PCRE_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/pcre-${PCRE_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}/pcre
+make -j${CPUS}
+make install
+
+# Build Apache HTTPD package
+echo "Building Apache HTTPD ${HTTPD_VERSION}..."
+mv ${BOSH_COMPILE_TARGET}/apr-${APR_VERSION} ${BOSH_COMPILE_TARGET}/httpd-${HTTPD_VERSION}/srclib/apr
+mv ${BOSH_COMPILE_TARGET}/apr-util-${APR_UTIL_VERSION} ${BOSH_COMPILE_TARGET}/httpd-${HTTPD_VERSION}/srclib/apr-util
+cd ${BOSH_COMPILE_TARGET}/httpd-${HTTPD_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET} --enable-so --with-included-apr --with-pcre=${BOSH_INSTALL_TARGET}/pcre
+make -j${CPUS}
+make install

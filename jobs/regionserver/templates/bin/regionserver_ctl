@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+# Setup common env vars and folders
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'regionserver'
+export REGIONSERVER_PID_FILE=$HBASE_PID_DIR/hbase-regionserver.pid
+
+# Set the hostname
+hostname <%= index %>.<%= name %>.<%= spec.networks.methods(false).grep(/[^=]$/).first.to_s %>.<%= spec.deployment %>.<%= spec.dns_domain_name %>
+
+case $1 in
+
+  start)
+    pid_guard $REGIONSERVER_PID_FILE $JOB_NAME
+    echo $$ > $REGIONSERVER_PID_FILE
+
+    # Create hadoop supergroup
+    getent group $HADOOP_GROUP &>/dev/null || groupadd $HADOOP_GROUP
+
+    # Create hbase user
+    id $HBASE_USER &>/dev/null || useradd -s /sbin/nologin -r -M $HBASE_USER -G $HADOOP_GROUP
+
+    # Start HBase RegionServer
+    exec chpst -u $HBASE_USER:$HADOOP_GROUP hbase regionserver start >>$LOG_DIR/$JOB_NAME.stdout.log 2>>$LOG_DIR/$JOB_NAME.stderr.log
+    ;;
+
+  stop)
+    kill_and_wait $REGIONSERVER_PID_FILE
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

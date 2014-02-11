@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+#
+# Users and Groups
+#
+
+# User which will own the HBASE services
+export HBASE_USER=hbase
+
+# A common group shared by services
+export HADOOP_GROUP=vcap
+
+#
+# Hadoop Common
+#
+
+# Directory to store the Hadoop configuration files
+export HADOOP_CONF_DIR=$JOB_DIR/config
+
+# Directory to store the Hadoop logs
+export HADOOP_LOG_DIR=$LOG_DIR
+
+# Directory to store the Hadoop process IDs
+export HADOOP_PID_DIR=$RUN_DIR
+
+#
+# Hadoop Service - HBASE
+#
+
+# Directory to store the HBase configuration files
+export HBASE_CONF_DIR=$JOB_DIR/config
+
+# Directory to store the HBase logs
+export HBASE_LOG_DIR=$LOG_DIR
+
+# Directory to store the HBase logs
+export HBASE_PID_DIR=$RUN_DIR

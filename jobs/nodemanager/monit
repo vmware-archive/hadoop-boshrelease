@@ -1,0 +1,5 @@
+check process nodemanager
+  with pidfile /var/vcap/sys/run/nodemanager/hadoop-yarn-nodemanager.pid
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger nodemanager_ctl '/var/vcap/jobs/nodemanager/bin/nodemanager_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger nodemanager_ctl '/var/vcap/jobs/nodemanager/bin/nodemanager_ctl stop'"
+  group vcap

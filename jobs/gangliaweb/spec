@@ -1,0 +1,28 @@
+---
+name: gangliaweb
+
+packages:
+  - bosh-helpers
+  - apache2
+  - php5
+  - ganglia
+
+templates:
+  bin/gangliaweb_ctl: bin/gangliaweb_ctl
+  config/conf.php.erb: config/conf.php
+  config/httpd.conf.erb: config/httpd.conf
+  config/php.ini.erb: config/php.ini
+  data/properties.sh.erb: data/properties.sh
+
+properties:
+  ganglia.web.port:
+    description: Ganglia Web port
+    default: 80
+  ganglia.web.serveradmin:
+    description: Ganglia web server admin
+    default: you@example.com
+  ganglia.web.servername:
+    description: Ganglia web server name
+  ganglia.metad.rrd_rootdir:
+    description: Location where gmetad stores its round-robin databases
+    default: /var/vcap/store/gangliametad/rrds

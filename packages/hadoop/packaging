@@ -1,0 +1,88 @@
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Java7 package must be a dependency
+export JAVA_HOME=/var/vcap/packages/java7/jdk
+
+# Detect # of CPUs so make jobs can be parallelized
+CPUS=`grep -c ^processor /proc/cpuinfo`
+
+# We grab the latest versions that are in the directory
+HADOOP_VERSION=`ls -r hadoop/hadoop-*-src.tar.gz | sed 's/hadoop\/hadoop-\(.*\)-src\.tar\.gz/\1/' | head -1`
+COMMONS_DAEMON_VERSION=`ls -r commons-daemon/commons-daemon-*-bin.tar.gz | sed 's/commons-daemon\/commons-daemon-\(.*\)-bin\.tar\.gz/\1/' | head -1`
+MAVEN_VERSION=`ls -r maven/apache-maven-*-bin.tar.gz | sed 's/maven\/apache-maven-\(.*\)-bin\.tar\.gz/\1/' | head -1`
+PROTOBUF_VERSION=`ls -r protobuf/protobuf-*.tar.gz | sed 's/protobuf\/protobuf-\(.*\)\.tar\.gz/\1/' | head -1`
+
+# Extract Apache Hadoop package
+echo "Extracting Apache Hadoop ${HADOOP_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/hadoop/hadoop-${HADOOP_VERSION}-src.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Apache Hadoop ${HADOOP_VERSION}"
+  exit 1
+fi
+
+# Extract Apache Hadoop dependencies package
+echo "Extracting Apache Hadoop dependencies ${HADOOP_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/hadoop/hadoop-${HADOOP_VERSION}-dependencies.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Apache Hadoop dependencies ${HADOOP_VERSION}"
+  exit 1
+fi
+
+# Extract Apache Commons Daemon package
+echo "Extracting Apache Commons Daemon ${COMMONS_DAEMON_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/commons-daemon/commons-daemon-${COMMONS_DAEMON_VERSION}-bin.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Apache Common Daemon ${COMMONS_DAEMON_VERSION}"
+  exit 1
+fi
+
+# Extract Apache Maven package
+echo "Extracting Apache Maven ${MAVEN_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/maven/apache-maven-${MAVEN_VERSION}-bin.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Apache Maven ${MAVEN_VERSION}"
+  exit 1
+fi
+
+# Extract Protobuf package
+echo "Extracting Protobuf ${PROTOBUF_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/protobuf/protobuf-${PROTOBUF_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Protobuf ${PROTOBUF_VERSION}"
+  exit 1
+fi
+
+# Copy Apache Hadoop dependencies package
+echo "Copying Apache Hadoop dependencies ${HADOOP_VERSION}..."
+mv ${BOSH_COMPILE_TARGET}/.m2 ~/
+
+# Copy Apache Commons Daemon package
+echo "Copying Apache Common Daemon ${COMMONS_DAEMON_VERSION}..."
+mkdir -p ${BOSH_INSTALL_TARGET}/commons-daemon
+cp -a ${BOSH_COMPILE_TARGET}/commons-daemon-${COMMONS_DAEMON_VERSION}/* ${BOSH_INSTALL_TARGET}/commons-daemon
+
+# Copy Apache Maven package
+echo "Copying Apache Maven ${MAVEN_VERSION}..."
+mkdir -p ${BOSH_INSTALL_TARGET}/maven
+cp -a ${BOSH_COMPILE_TARGET}/apache-maven-${MAVEN_VERSION}/* ${BOSH_INSTALL_TARGET}/maven
+export PATH=${BOSH_INSTALL_TARGET}/maven/bin:$PATH
+
+# Build Protobuf package
+echo "Building Protobuf ${PROTOBUF_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/protobuf-${PROTOBUF_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}/protobuf
+make -j${CPUS}
+make install
+export PATH=${BOSH_INSTALL_TARGET}/protobuf/bin:$PATH
+
+# Copy Apache Hadoop patchs
+echo "Copying Apache Hadoop patchs..."
+cp ${BOSH_COMPILE_TARGET}/hadoop/HADOOP-10110.patch ${BOSH_COMPILE_TARGET}/hadoop-${HADOOP_VERSION}-src
+
+# Build Apache Hadoop package
+echo "Building Apache Hadoop ${HADOOP_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/hadoop-${HADOOP_VERSION}-src
+patch -p0 < HADOOP-10110.patch
+mvn package -Pdist,native -DskipTests -Dtar -o
+cp -a ${BOSH_COMPILE_TARGET}/hadoop-${HADOOP_VERSION}-src/hadoop-dist/target/hadoop-${HADOOP_VERSION}/* ${BOSH_INSTALL_TARGET}/

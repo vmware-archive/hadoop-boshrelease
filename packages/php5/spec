@@ -1,0 +1,6 @@
+---
+name: php5
+dependencies:
+  - apache2
+files:
+  - php5/php-5.5.9.tar.gz

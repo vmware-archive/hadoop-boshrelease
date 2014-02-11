@@ -1,0 +1,4 @@
+data_source "<%= spec.deployment %>" <%= p('ganglia.metad.polling_interval') %> <%= p('ganglia.mond.address') %>:<%=  p('ganglia.mond.port') %>
+debug_level 1
+rrd_rootdir "<%= p('ganglia.metad.rrd_rootdir') %>"
+server_threads <%= p('ganglia.metad.server_threads') %>

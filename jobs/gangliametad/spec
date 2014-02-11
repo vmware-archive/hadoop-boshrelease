@@ -1,0 +1,27 @@
+---
+name: gangliametad
+
+packages:
+  - bosh-helpers
+  - ganglia
+
+templates:
+  bin/gangliametad_ctl: bin/gangliametad_ctl
+  config/gmetad.conf.erb: config/gmetad.conf
+  data/properties.sh.erb: data/properties.sh
+
+properties:
+  ganglia.metad.rrd_rootdir:
+    description: Location where gmetad stores its round-robin databases
+    default: /var/vcap/store/gangliametad/rrds
+  ganglia.metad.server_threads:
+    description: The number of threads answering XML requests
+    default: 4
+  ganglia.metad.polling_interval:
+    description: Polling interval in seconds
+    default: 15
+  ganglia.mond.port:
+    description: Ganglia mond port
+    default: 8649
+  ganglia.mond.address:
+    description: Ganglia mond master address

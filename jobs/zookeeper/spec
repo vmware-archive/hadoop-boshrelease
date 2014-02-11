@@ -1,0 +1,31 @@
+---
+name: zookeeper
+
+packages:
+  - bosh-helpers
+  - java7
+  - zookeeper
+
+templates:
+  bin/zookeeper_ctl: bin/zookeeper_ctl
+  config/configuration.xsl: config/configuration.xsl
+  config/log4j.properties: config/log4j.properties
+  config/myid.erb: config/myid
+  config/zoo.cfg.erb: config/zoo.cfg
+  data/properties.sh.erb: data/properties.sh
+
+properties:
+  zookeeper.servers:
+    description: List of all zookeeper server host IP/hostnames
+  zookeeper.client_port:
+    description: Port at which the clients will connect to Zookeeper
+    default: 2181
+  zookeeper.quorum_port:
+    description: Zookeeper Client quorum number
+    default: 2888
+  zookeeper.leader_election_port:
+    description: Zookeeper Client leader election number
+    default: 3888
+  zookeeper.data_dir:
+    description: Data directory path
+    default: /var/vcap/store/zookeeper

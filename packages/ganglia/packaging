@@ -1,0 +1,294 @@
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Detect # of CPUs so make jobs can be parallelized
+CPUS=`grep -c ^processor /proc/cpuinfo`
+
+# We grab the latest versions that are in the directory
+APR_VERSION=`ls -r apr/apr-*.tar.gz | grep -v 'util' | sed 's/apr\/apr-\(.*\)\.tar\.gz/\1/' | head -1`
+CAIRO_VERSION=`ls -r cairo/cairo-*.tar.gz | sed 's/cairo\/cairo-\(.*\)\.tar\.gz/\1/' | head -1`
+CONFUSE_VERSION=`ls -r confuse/confuse-*.tar.gz | sed 's/confuse\/confuse-\(.*\)\.tar\.gz/\1/' | head -1`
+EXPAT_VERSION=`ls -r expat/expat-*.tar.gz | sed 's/expat\/expat-\(.*\)\.tar\.gz/\1/' | head -1`
+FONTCONFIG_VERSION=`ls -r fontconfig/fontconfig-*.tar.gz | sed 's/fontconfig\/fontconfig-\(.*\)\.tar\.gz/\1/' | head -1`
+FREEFONT_VERSION=`ls -r freefont/freefont-otf-*.tar.gz | sed 's/freefont\/freefont-otf-\(.*\)\.tar\.gz/\1/' | head -1`
+FREETYPE_VERSION=`ls -r freetype/freetype-*.tar.gz | sed 's/freetype\/freetype-\(.*\)\.tar\.gz/\1/' | head -1`
+GANGLIA_VERSION=`ls -r ganglia/ganglia-*.tar.gz | grep -v 'web' | sed 's/ganglia\/ganglia-\(.*\)\.tar\.gz/\1/' | head -1`
+GANGLIA_WEB_VERSION=`ls -r ganglia/ganglia-web-*.tar.gz | sed 's/ganglia\/ganglia-web-\(.*\)\.tar\.gz/\1/' | head -1`
+GLIB_VERSION=`ls -r glib/glib-*.tar.gz | sed 's/glib\/glib-\(.*\)\.tar\.gz/\1/' | head -1`
+LIBPNG_VERSION=`ls -r libpng/libpng-*.tar.gz | sed 's/libpng\/libpng-\(.*\)\.tar\.gz/\1/' | head -1`
+PANGO_VERSION=`ls -r cairo/pango-*.tar.gz | sed 's/cairo\/pango-\(.*\)\.tar\.gz/\1/' | head -1`
+PCRE_VERSION=`ls -r pcre/pcre-*.tar.gz | sed 's/pcre\/pcre-\(.*\)\.tar\.gz/\1/' | head -1`
+PIXMAN_VERSION=`ls -r cairo/pixman-*.tar.gz | sed 's/cairo\/pixman-\(.*\)\.tar\.gz/\1/' | head -1`
+RRDTOOL_VERSION=`ls -r rrdtool/rrdtool-*.tar.gz | sed 's/rrdtool\/rrdtool-\(.*\)\.tar\.gz/\1/' | head -1`
+ZLIB_VERSION=`ls -r zlib/zlib-*.tar.gz | sed 's/zlib\/zlib-\(.*\)\.tar\.gz/\1/' | head -1`
+
+# Initialize pkg-config path
+export PKG_CONFIG_PATH=""
+
+# Extract APR package
+echo "Extracting APR ${APR_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/apr/apr-${APR_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting APR ${APR_VERSION}"
+  exit 1
+fi
+
+# Extract Cairo package
+echo "Extracting Cairo ${CAIRO_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/cairo/cairo-${CAIRO_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Cairo ${CAIRO_VERSION}"
+  exit 1
+fi
+
+# Extract Confuse package
+echo "Extracting Confuse ${CONFUSE_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/confuse/confuse-${CONFUSE_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Confuse ${CONFUSE_VERSION}"
+  exit 1
+fi
+
+# Extract Expat package
+echo "Extracting Expat ${EXPAT_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/expat/expat-${EXPAT_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Expat ${EXPAT_VERSION}"
+  exit 1
+fi
+
+# Extract Fontconfig package
+echo "Extracting Fontconfig ${FONTCONFIG_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/fontconfig/fontconfig-${FONTCONFIG_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Fontconfig ${FONTCONFIG_VERSION}"
+  exit 1
+fi
+
+# Extract Freefont package
+echo "Extracting Freefont ${FREEFONT_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/freefont/freefont-otf-${FREEFONT_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Freefont ${FREEFONT_VERSION}"
+  exit 1
+fi
+
+# Extract Freetype package
+echo "Extracting Freetype ${FREETYPE_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/freetype/freetype-${FREETYPE_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Freetype ${FREETYPE_VERSION}"
+  exit 1
+fi
+
+# Extract Ganglia package
+echo "Extracting Ganglia ${GANGLIA_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/ganglia/ganglia-${GANGLIA_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Ganglia ${GANGLIA_VERSION}"
+  exit 1
+fi
+
+# Extract Ganglia Web package
+echo "Extracting Ganglia Web ${GANGLIA_WEB_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/ganglia/ganglia-web-${GANGLIA_WEB_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Ganglia Web ${GANGLIA_WEB_VERSION}"
+  exit 1
+fi
+
+# Extract glib package
+echo "Extracting glib ${GLIB_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/glib/glib-${GLIB_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting glib ${GLIB_VERSION}"
+  exit 1
+fi
+
+# Extract libpng package
+echo "Extracting libpng ${LIBPNG_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/libpng/libpng-${LIBPNG_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting libpng ${LIBPNG_VERSION}"
+  exit 1
+fi
+
+# Extract Pango package
+echo "Extracting Pango ${PANGO_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/cairo/pango-${PANGO_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Pango ${PANGO_VERSION}"
+  exit 1
+fi
+
+# Extract PCRE package
+echo "Extracting PCRE ${PCRE_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/pcre/pcre-${PCRE_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting PCRE ${PCRE_VERSION}"
+  exit 1
+fi
+
+# Extract Pixman package
+echo "Extracting Pixman ${PIXMAN_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/cairo/pixman-${PIXMAN_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Pixman ${PIXMAN_VERSION}"
+  exit 1
+fi
+
+# Extract RRDTool package
+echo "Extracting RRDTool ${RRDTOOL_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/rrdtool/rrdtool-${RRDTOOL_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting RRDTool ${RRDTOOL_VERSION}"
+  exit 1
+fi
+
+# Extract zlib package
+echo "Extracting zlib ${ZLIB_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/zlib/zlib-${ZLIB_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting zlib ${ZLIB_VERSION}"
+  exit 1
+fi
+
+# Build APR package
+echo "Building APR ${APR_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/apr-${APR_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}/libapr
+make -j${CPUS}
+make install
+export PATH=${BOSH_INSTALL_TARGET}/libapr/bin:$PATH
+export PKG_CONFIG_PATH=${BOSH_INSTALL_TARGET}/libapr/lib/pkgconfig:$PKG_CONFIG_PATH
+
+# Build Confuse package
+echo "Building Confuse ${CONFUSE_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/confuse-${CONFUSE_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}/libconfuse --libdir=${BOSH_INSTALL_TARGET}/libconfuse/lib64 --enable-shared
+make -j${CPUS}
+make install
+export PKG_CONFIG_PATH=${BOSH_INSTALL_TARGET}/libconfuse/lib64/pkgconfig:$PKG_CONFIG_PATH
+
+# Build Expat package
+echo "Building Expat ${EXPAT_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/expat-${EXPAT_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}/libexpat --libdir=${BOSH_INSTALL_TARGET}/libexpat/lib64 --enable-shared
+make -j${CPUS}
+make install
+export PATH=${BOSH_INSTALL_TARGET}/libexpat/bin:$PATH
+export PKG_CONFIG_PATH=${BOSH_INSTALL_TARGET}/libexpat/lib64/pkgconfig:$PKG_CONFIG_PATH
+
+# Build PCRE package
+echo "Building PCRE ${PCRE_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/pcre-${PCRE_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}/libpcre --libdir=${BOSH_INSTALL_TARGET}/libpcre/lib64
+make -j${CPUS}
+make install
+export PATH=${BOSH_INSTALL_TARGET}/libpcre/bin:$PATH
+export PKG_CONFIG_PATH=${BOSH_INSTALL_TARGET}/libpcre/lib64/pkgconfig:$PKG_CONFIG_PATH
+
+# Build glib package
+echo "Building glib ${GLIB_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/glib-${GLIB_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}/glib CFLAGS="-O3 -fPIC"
+make -j${CPUS}
+make install
+export PATH=${BOSH_INSTALL_TARGET}/glib/bin:$PATH
+export PKG_CONFIG_PATH=${BOSH_INSTALL_TARGET}/glib/lib/pkgconfig:$PKG_CONFIG_PATH
+
+# Build libpng package
+echo "Building libpng ${LIBPNG_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/libpng-${LIBPNG_VERSION}
+env CFLAGS="-O3 -fPIC" ./configure --prefix=${BOSH_INSTALL_TARGET}/libpng
+make -j${CPUS}
+make install
+export PATH=${BOSH_INSTALL_TARGET}/libpng/bin:$PATH
+export PKG_CONFIG_PATH=${BOSH_INSTALL_TARGET}/libpng/lib/pkgconfig:$PKG_CONFIG_PATH
+
+# Build Freetype package
+echo "Building Freetype ${FREETYPE_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/freetype-${FREETYPE_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}/freetype CFLAGS="-O3 -fPIC"
+make -j${CPUS}
+make install
+export PATH=${BOSH_INSTALL_TARGET}/freetype/bin:$PATH
+export PKG_CONFIG_PATH=${BOSH_INSTALL_TARGET}/freetype/lib/pkgconfig:$PKG_CONFIG_PATH
+
+# Build Fontconfig package
+echo "Building Fontconfig ${FONTCONFIG_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/fontconfig-${FONTCONFIG_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}/fontconfig CFLAGS="-O3 -fPIC"
+make -j${CPUS}
+make install
+export PATH=${BOSH_INSTALL_TARGET}/fontconfig/bin:$PATH
+export PKG_CONFIG_PATH=${BOSH_INSTALL_TARGET}/fontconfig/lib/pkgconfig:$PKG_CONFIG_PATH
+
+# Build Pixman package
+echo "Building Pixman ${PIXMAN_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/pixman-${PIXMAN_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}/pixman CFLAGS="-O3 -fPIC"
+make -j${CPUS}
+make install
+export PKG_CONFIG_PATH=${BOSH_INSTALL_TARGET}/pixman/lib/pkgconfig:$PKG_CONFIG_PATH
+
+# Build Cairo package
+echo "Building Cairo ${CAIRO_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/cairo-${CAIRO_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}/cairo CFLAGS="-O3 -fPIC" \
+  --enable-xlib=no \
+  --enable-xlib-render=no \
+  --enable-win32=no
+
+make -j${CPUS}
+make install
+export PATH=${BOSH_INSTALL_TARGET}/cairo/bin:$PATH
+export PKG_CONFIG_PATH=${BOSH_INSTALL_TARGET}/cairo/lib/pkgconfig:$PKG_CONFIG_PATH
+
+# Build Pango package
+echo "Building Pango ${PANGO_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/pango-${PANGO_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}/pango CFLAGS="-O3 -fPIC" --without-x
+make -j${CPUS}
+make install
+export PATH=${BOSH_INSTALL_TARGET}/pango/bin:$PATH
+export PKG_CONFIG_PATH=${BOSH_INSTALL_TARGET}/pango/lib/pkgconfig:$PKG_CONFIG_PATH
+
+# Build RRDTool package
+echo "Building RRDTool ${RRDTOOL_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/rrdtool-${RRDTOOL_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}/rrd --disable-perl --disable-python --disable-tcl CFLAGS="-O3 -fPIC"
+make -j${CPUS}
+make install
+export PATH=${BOSH_INSTALL_TARGET}/rrd/bin:$PATH
+export PKG_CONFIG_PATH=${BOSH_INSTALL_TARGET}/rrd/lib/pkgconfig:$PKG_CONFIG_PATH
+
+# Build zlib package
+echo "Building zlib ${ZLIB_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/zlib-${ZLIB_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET}/zlib --shared
+make -j${CPUS}
+make install
+export PKG_CONFIG_PATH=${BOSH_INSTALL_TARGET}/zlib/lib/pkgconfig:$PKG_CONFIG_PATH
+
+# Build Ganglia package
+echo "Building Ganglia ${GANGLIA_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/ganglia-${GANGLIA_VERSION}
+export DEPS_LIBS="-L/root/rrd/lib -lrrd"
+./configure --prefix=${BOSH_INSTALL_TARGET} --with-gmetad \
+  --with-libconfuse=${BOSH_INSTALL_TARGET}/libconfuse \
+  --with-libexpat=${BOSH_INSTALL_TARGET}/libexpat \
+  --with-libpcre=${BOSH_INSTALL_TARGET}/libpcre \
+  --with-librrd=${BOSH_INSTALL_TARGET}/rrd
+make -j${CPUS}
+make install
+
+# Copy Ganglia Web package
+echo "Copying Ganglia Web ${GANGLIA_WEB_VERSION}..."
+mkdir -p ${BOSH_INSTALL_TARGET}/ganglia-web
+cp -a ${BOSH_COMPILE_TARGET}/ganglia-web-${GANGLIA_WEB_VERSION}/* ${BOSH_INSTALL_TARGET}/ganglia-web
+
+# Copy Freefont package
+echo "Copying Freefont ${FREEFONT_VERSION}..."
+mkdir -p ${BOSH_INSTALL_TARGET}/freefont
+cp -a ${BOSH_COMPILE_TARGET}/freefont-${FREEFONT_VERSION}/* ${BOSH_INSTALL_TARGET}/freefont

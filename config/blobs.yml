@@ -1,0 +1,141 @@
+---
+apache2/httpd-2.4.7.tar.gz:
+  object_id: 25d7af6f-7b73-4116-a54f-1444ef771cc8
+  sha: !binary |-
+    OWE3Mzc4M2IwZjc1MjI2ZmIyYWZkY2FkZDMwY2NiYTc3YmEwNTE0OQ==
+  size: 6747087
+apr/apr-1.5.0.tar.gz:
+  object_id: 1f713d4d-2029-4fe9-8178-e0e3a1739882
+  sha: !binary |-
+    YzQ1N2FkZjQyNTAyYTMyMjk2N2VhMDQ5OWExNTA1ODc1ODVlNTI5MQ==
+  size: 1016391
+apr/apr-util-1.5.3.tar.gz:
+  object_id: 5e074bd1-a888-4e9d-a39d-7516a6a92966
+  sha: !binary |-
+    YmZlZTIyNzc2MDNjODEzNmUxMmRiNWM3YmU3ZTljYmJkODc5NDU5Ng==
+  size: 874462
+cairo/cairo-1.12.0.tar.gz:
+  object_id: b272e12b-3f49-4031-b5a6-4e2e1df516cb
+  sha: !binary |-
+    NjNlMGQxMzcyYTc5MTk5NTZiNmQ5NTk3MDlkZmRmMzVkM2NlY2MwMg==
+  size: 63084508
+cairo/pango-1.28.4.tar.gz:
+  object_id: 99a9355c-52bb-44c9-bc4c-8694b103ca16
+  sha: !binary |-
+    MTYxOTM4MGI5YTY2ODE2MzM0NjJmN2Q1MjIwMTAwN2Q0ZDFiZmFmZQ==
+  size: 2098991
+cairo/pixman-0.32.4.tar.gz:
+  object_id: 9caf0be7-58db-40ac-b0f6-9f6c76573380
+  sha: !binary |-
+    NTRiZTg5YjM0NTMxMDliZTA5MzA0MDBlNWIxM2MzNWM5ZTlkNWUzYQ==
+  size: 817407
+commons-daemon/commons-daemon-1.0.15-bin.tar.gz:
+  object_id: ff2e60fd-18b6-429b-9d24-41562e6f2ff4
+  sha: !binary |-
+    ODJlODdkNjMyMGYzMGQyZjE4YmNmNmRlYjcwMTRiZmI1NDAyMGU2Ng==
+  size: 232233
+confuse/confuse-2.7.tar.gz:
+  object_id: a5bb2ee3-da27-4f9a-8967-4c39c63e209d
+  sha: !binary |-
+    YjNmNzRmOTc2M2U2YzkwMTI0NzZkYmQzMjNkMDgzYWY0YmUzNGNhZA==
+  size: 517272
+expat/expat-2.1.0.tar.gz:
+  object_id: 9280bf16-0a80-4d22-89b3-12c2aeef2370
+  sha: !binary |-
+    YjA4MTk3ZDE0NjkzMGE1NTQzYTdiOTllODcxY2JhM2RhNjE0ZjZmMA==
+  size: 562616
+fontconfig/fontconfig-2.11.0.tar.gz:
+  object_id: f2062bd6-6eff-4109-92dd-26787b65c1b0
+  sha: !binary |-
+    NjUwZjhmM2I4YzdiNmZhYzY4YzI1ZjM3OTYxNmI1YmU0OGJlMTNiZg==
+  size: 1844487
+freefont/freefont-otf-20120503.tar.gz:
+  object_id: b7414bdb-b3c0-4081-8974-7e284d2199c0
+  sha: !binary |-
+    ZGFkNzYwMGZhOWVlZDQxMTZjMmFhYTU2MTIyOGUzODc5NTY1ZjdhYQ==
+  size: 4487813
+freetype/freetype-2.5.2.tar.gz:
+  object_id: 4a64c01b-32f5-4f55-8b61-659f3f971e07
+  sha: !binary |-
+    YTA2NDljYWIxMjY2MjM3MDg5NDU5OWEzZjNlN2ZiZTRhNjU5OGUxYw==
+  size: 2219466
+ganglia/ganglia-3.5.0.tar.gz:
+  object_id: 7fbe63b9-8788-4d7b-a14a-cd51d6b69be3
+  sha: !binary |-
+    ZGU4MWYzOWYyYWFhZDFjMmQxZWNmNTM2NTVhMGQwZmYwOGIyYTgxNg==
+  size: 1234790
+ganglia/ganglia-web-3.5.12.tar.gz:
+  object_id: 75c77c2c-516c-4243-8e88-4f5431660f82
+  sha: !binary |-
+    YTUxNGVkYzk5ZjBjOWFlODUxZmU3NzY2YWQyMTVhNGZhYWIyZGQxYg==
+  size: 1595483
+glib/glib-2.28.6.tar.gz:
+  object_id: 03f03a0f-4c64-4b1f-8896-5baaaa0d961c
+  sha: !binary |-
+    YjdmY2E2ZTFlZjQ2ZGYzNWQ0Y2IxMDA3ZDIzN2EyNWIzOTMyYzNhNw==
+  size: 9983425
+hadoop/HADOOP-10110.patch:
+  object_id: 49f60115-d5cd-4b72-ac89-288c8f66df53
+  sha: !binary |-
+    MDIzNzYxZmU3ZGQxM2M2MzI4MGMxMmI4ZTVkMGEzMzk1MGM2OTRiNg==
+  size: 578
+hadoop/hadoop-2.2.0-dependencies.tar.gz:
+  object_id: 58abe354-a0d4-4922-9d4f-608abb5349ef
+  sha: !binary |-
+    NDIzYjZhN2E5OWZlOWEzOWE2MjI2MTFjZDFjMDNlM2ZlYTZkM2U0Yw==
+  size: 101262827
+hadoop/hadoop-2.2.0-src.tar.gz:
+  object_id: d579ef56-071c-41c7-a799-bb54308edb6d
+  sha: !binary |-
+    ZGFjMmM1NzczMDgwYzhhNGI4ZmIzY2UzMDZkZjFjNzQyMzUxYzZmMg==
+  size: 19492395
+hbase/hbase-0.94.16.tar.gz:
+  object_id: e2bb21c7-a58a-45ed-9e58-7070101a62cd
+  sha: !binary |-
+    MzJkZDEyY2NmOWFlNDZlYzM4ZTMxYjVhMDg5MDBhMGM1NzZjODc0YQ==
+  size: 58552190
+java7/jdk-1.7.0_51.tar.gz:
+  object_id: e333865d-73b6-4d5d-811f-37e1d17da9b2
+  sha: !binary |-
+    YmVlM2IwODVhOTA0MzljODMzY2UxOGUxMzhjOWYxYTYxNTE1Mjg5MQ==
+  size: 138199690
+libpng/libpng-1.6.9.tar.gz:
+  object_id: d0020f95-5b2e-4209-8c57-70cc2dfee011
+  sha: !binary |-
+    OTQwOTU4ODA1N2FjMTZlMThmMmMwNjQwZjVlZDcyMTg3MmJiZmNlOA==
+  size: 1329867
+maven/apache-maven-3.1.1-bin.tar.gz:
+  object_id: b42f70b1-9952-49e1-94fe-203900c30e34
+  sha: !binary |-
+    NjMwZWVhMjEwN2IwNzQyYWNiMzE1YjIxNDAwOWJhMDg2MDJkZGE1Zg==
+  size: 5494427
+pcre/pcre-8.34.tar.gz:
+  object_id: c24052ea-01dd-4d11-8ef4-a81388b4519b
+  sha: !binary |-
+    ZDQ2ZTUzNzMzN2VlNzBkZjE5MDg0MDAxYTRiNjgxNWIzZDY5ZmU2Yw==
+  size: 1933734
+php5/php-5.5.9.tar.gz:
+  object_id: 3d628eb5-51e2-4b20-8583-d1b1000642f5
+  sha: !binary |-
+    Mzc4ZGUxNjJlZmRhZWViNzI1ZWQzOGQ3ZmU5NTZjOWYwYjkwODRmZg==
+  size: 16828151
+protobuf/protobuf-2.5.0.tar.gz:
+  object_id: 92b3babb-08fa-45f1-900d-63f52753339d
+  sha: !binary |-
+    N2Y2ZWE3YmMxMzgyMjAyZmIxY2U4YzY5MzNmMWVmOGZlYTBjMDE0OA==
+  size: 2401901
+rrdtool/rrdtool-1.4.8.tar.gz:
+  object_id: c7e89f20-e43a-4d5f-9642-1cd3b67df393
+  sha: !binary |-
+    NTZkNjg4NTdmMzllNzBiZmEzMjM2MDk0NzYxNGQ4MjIwNzAyZWQwMg==
+  size: 1379482
+zlib/zlib-1.2.8.tar.gz:
+  object_id: 25e24979-6d42-4be3-8fd7-4432e178a578
+  sha: !binary |-
+    YTRkMzE2YzQwNGZmNTRjYTU0NWVhNzFhMjdhZjdkYmMyOTgxNzA4OA==
+  size: 571091
+zookeeper/zookeeper-3.4.5.tar.gz:
+  object_id: 4291448b-f854-446c-aa69-8b811715204c
+  sha: !binary |-
+    ZmQ5MjE1NzVlMDI0Nzg5MDk1NTcwMzRlYTkyMmRlODcxOTI2ZWZjNw==
+  size: 16402010

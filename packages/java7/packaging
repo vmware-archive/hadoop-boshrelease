@@ -1,0 +1,18 @@
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# We grab the latest versions that are in the directory
+JAVA7_VERSION=`ls -r java7/jdk-*.tar.gz | sed 's/java7\/jdk-\(.*\)\.tar\.gz/\1/' | head -1`
+
+# Extract and copy Java 7 package
+echo "Extracting Java 7 ${JAVA7_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/java7/jdk-${JAVA7_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Apache Java 7 ${JAVA7_VERSION}"
+  exit 1
+fi
+
+# Copy Java7 package
+echo "Copying Java7 ${JAVA7_VERSION}..."
+mkdir -p ${BOSH_INSTALL_TARGET}/jdk
+cp -a ${BOSH_COMPILE_TARGET}/jdk${JAVA7_VERSION}/* ${BOSH_INSTALL_TARGET}/jdk

@@ -1,0 +1,8 @@
+---
+name: apache2
+dependencies: {}
+files:
+  - apache2/httpd-2.4.7.tar.gz
+  - apr/apr-1.5.0.tar.gz
+  - apr/apr-util-1.5.3.tar.gz
+  - pcre/pcre-8.34.tar.gz

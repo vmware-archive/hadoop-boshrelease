@@ -1,0 +1,85 @@
+---
+name: secondarynamenode
+
+packages:
+  - bosh-helpers
+  - java7
+  - hadoop
+
+templates:
+  bin/secondarynamenode_ctl: bin/secondarynamenode_ctl
+  config/commons-logging.properties: config/commons-logging.properties
+  config/core-site.xml.erb: config/core-site.xml
+  config/hadoop-env.sh: config/hadoop-env.sh
+  config/hadoop-metrics2.properties.erb: config/hadoop-metrics2.properties
+  config/hadoop-policy.xml: config/hadoop-policy.xml
+  config/hdfs-site.xml.erb: config/hdfs-site.xml
+  config/log4j.properties: config/log4j.properties
+  config/slaves: config/slaves
+  data/properties.sh.erb: data/properties.sh
+
+properties:
+  dfs.address:
+    description: HDFS address
+  dfs.port:
+    description: HDFS port
+    default: 8020
+  dfs.blocksize:
+    description: HDFS default block size
+    default: 134217728
+  dfs.replication:
+    description: HDFS replication
+    default: 3
+  dfs.max_replication:
+    description: HDFS maximum replication
+    default: 50
+  dfs.trash_interval:
+    description: HDFS Trash interval
+    default: 1440
+  dfs.checkpoint_size:
+    description:
+    default: 0.5
+  namenode.http_port:
+    description: Namenode HTTP port
+    default: 50070
+  namenode.https_port:
+    description: Namenode HTTPS port
+    default: 50470
+  namenode.handler_count:
+    description: The number of server threads for the namenode
+    default: 100
+  namenode.name_dir:
+    description: Directory where NameNode should store the file system image
+    default: /var/vcap/store/hadoop/hdfs/nn
+  namenode.checkpoint_dir:
+    description: Directory where SecondaryNameNode should store the checkpoint image
+    default: /var/vcap/store/hadoop/hdfs/snn
+  namenode.checkpoint_edits_dir:
+    description: Directory where SecondaryNameNode should store the temporary edits to merge
+    default: /var/vcap/store/hadoop/hdfs/nns
+  secondarynamenode.http_port:
+    description: Secondary Namenode HTTP port
+    default: 50090
+  datanode.port:
+    description: Datanode port
+    default: 50010
+  datanode.http_port:
+    description: Datanode HTTP port
+    default: 50075
+  datanode.ipc_port:
+    description: Datanode IPC port
+    default: 8010
+  datanode.data_dir:
+    description: Directory where DataNodes should store the blocks
+    default: /var/vcap/store/hadoop/hdfs/dn
+  journalnode.http_port:
+    description: Journalnode HTTP port
+    default: 8480
+  journalnode.edits_dir:
+    description: Directory where JournalNode should store the edits and other local state
+    default: /var/vcap/store/hadoop/hdfs/jn
+  ganglia.mond.address:
+    description: Ganglia mond master address
+  ganglia.mond.port:
+    description: Ganglia mond port
+    default: 8649

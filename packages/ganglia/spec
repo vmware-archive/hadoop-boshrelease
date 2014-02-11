@@ -1,0 +1,20 @@
+---
+name: ganglia
+dependencies: {}
+files:
+  - apr/apr-1.5.0.tar.gz
+  - cairo/cairo-1.12.0.tar.gz
+  - cairo/pango-1.28.4.tar.gz
+  - cairo/pixman-0.32.4.tar.gz
+  - confuse/confuse-2.7.tar.gz
+  - expat/expat-2.1.0.tar.gz
+  - fontconfig/fontconfig-2.11.0.tar.gz
+  - freefont/freefont-otf-20120503.tar.gz
+  - freetype/freetype-2.5.2.tar.gz
+  - ganglia/ganglia-3.5.0.tar.gz
+  - ganglia/ganglia-web-3.5.12.tar.gz
+  - glib/glib-2.28.6.tar.gz
+  - libpng/libpng-1.6.9.tar.gz
+  - pcre/pcre-8.34.tar.gz
+  - rrdtool/rrdtool-1.4.8.tar.gz
+  - zlib/zlib-1.2.8.tar.gz

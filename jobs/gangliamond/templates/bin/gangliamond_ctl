@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+# Setup common env vars and folders
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'gangliamond'
+export GMOND_PID_FILE=$GMOND_PID_DIR/gmond.pid
+
+# Set the hostname
+hostname <%= index %>.<%= name %>.<%= spec.networks.methods(false).grep(/[^=]$/).first.to_s %>.<%= spec.deployment %>.<%= spec.dns_domain_name %>
+
+case $1 in
+
+  start)
+    pid_guard $GMOND_PID_FILE $JOB_NAME
+
+    # Start gmond
+    exec gmond -c $JOB_DIR/config/gmond.conf -p $GMOND_PID_FILE >>$LOG_DIR/$JOB_NAME.stdout.log 2>>$LOG_DIR/$JOB_NAME.stderr.log
+    ;;
+
+  stop)
+     kill_and_wait $GMOND_PID_FILE
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

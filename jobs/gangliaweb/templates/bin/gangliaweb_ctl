@@ -1,0 +1,49 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+# Setup common env vars and folders
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'gangliaweb'
+export HTTPD_PID_FILE=$HTTPD_PID_DIR/httpd.pid
+
+# Set the hostname
+hostname <%= index %>.<%= name %>.<%= spec.networks.methods(false).grep(/[^=]$/).first.to_s %>.<%= spec.deployment %>.<%= spec.dns_domain_name %>
+
+case $1 in
+
+  start)
+    pid_guard $HTTPD_PID_FILE $JOB_NAME
+
+    # Configure ganglia-web
+    mkdir -p $TMP_DIR/{conf,dwoo,rrds}
+    chown vcap:vcap $TMP_DIR/{conf,dwoo,rrds}
+    mkdir -p $TMP_DIR/dwoo/{compiled,cache}
+    chown vcap:vcap $TMP_DIR/dwoo/{compiled,cache}
+    if [ ! -f /var/vcap/packages/ganglia/ganglia-web/conf.php ]; then
+      ln -s $JOB_DIR/config/conf.php /var/vcap/packages/ganglia/ganglia-web/conf.php
+    fi
+
+    # Link freefont into shared fonts
+    mkdir -p /usr/share/fonts/freefont
+    cp -a /var/vcap/packages/ganglia/freefont/* /usr/share/fonts/freefont
+
+    # Link libphp5 into Apache2
+    if [ ! -f /var/vcap/packages/apache2/modules/libphp5.so ]; then
+      ln -s /var/vcap/packages/php5/modules/libphp5.so /var/vcap/packages/apache2/modules/libphp5.so
+    fi
+
+    # Start HTTPD server
+    exec $APACHECTL -f $JOB_DIR/config/httpd.conf -k start >>$LOG_DIR/$JOB_NAME.stdout.log 2>>$LOG_DIR/$JOB_NAME.stderr.log
+    ;;
+
+  stop)
+    exec $APACHECTL -f $JOB_DIR/config/httpd.conf -k stop >>$LOG_DIR/$JOB_NAME.stdout.log 2>>$LOG_DIR/$JOB_NAME.stderr.log
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

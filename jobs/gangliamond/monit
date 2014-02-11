@@ -1,0 +1,5 @@
+check process gangliamond
+  with pidfile /var/vcap/sys/run/gangliamond/gmond.pid
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger gangliamond_ctl '/var/vcap/jobs/gangliamond/bin/gangliamond_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger gangliamond_ctl '/var/vcap/jobs/gangliamond/bin/gangliamond_ctl stop'"
+  group vcap

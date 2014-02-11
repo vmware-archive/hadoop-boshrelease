@@ -1,0 +1,51 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+# Setup common env vars and folders
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'datanode'
+export DATANODE_PID_FILE=$HDFS_PID_DIR/hadoop-hdfs-datanode.pid
+
+# Set the hostname
+hostname <%= index %>.<%= name %>.<%= spec.networks.methods(false).grep(/[^=]$/).first.to_s %>.<%= spec.deployment %>.<%= spec.dns_domain_name %>
+
+case $1 in
+
+  start)
+    pid_guard $DATANODE_PID_FILE $JOB_NAME
+    echo $$ > $DATANODE_PID_FILE
+
+    # Create hadoop supergroup
+    getent group $HADOOP_GROUP &>/dev/null || groupadd $HADOOP_GROUP
+
+    # Create hdfs user
+    id $HDFS_USER &>/dev/null || useradd -s /sbin/nologin -r -M $HDFS_USER -G $HADOOP_GROUP
+
+    # Create datanode directory
+    if [ ! -d $DFS_DATA_DIR ]; then
+      mkdir -p $DFS_DATA_DIR
+      chown -R $HDFS_USER:$HADOOP_GROUP $DFS_DATA_DIR;
+      chmod -R 750 $DFS_DATA_DIR;
+    fi
+
+    # Create domain socket path
+    if [ ! -d /var/run/hdfs ]; then
+      mkdir -p /var/run/hdfs
+      chown -R $HDFS_USER:$HADOOP_GROUP /var/run/hdfs
+    fi
+
+    # Start datanode
+    exec chpst -u $HDFS_USER:$HADOOP_GROUP hdfs datanode >>$LOG_DIR/$JOB_NAME.stdout.log 2>>$LOG_DIR/$JOB_NAME.stderr.log
+    ;;
+
+  stop)
+    kill_and_wait $DATANODE_PID_FILE
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

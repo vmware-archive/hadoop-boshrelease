@@ -1,0 +1,5 @@
+---
+name: hbase
+dependencies: {}
+files:
+  - hbase/hbase-0.94.16.tar.gz

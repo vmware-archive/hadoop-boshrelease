@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+#
+# Users and Groups
+#
+
+# User which will own the HDFS services
+export HDFS_USER=hdfs
+
+# A common group shared by services
+export HADOOP_GROUP=vcap
+
+#
+# Commons Daemon
+#
+
+export JSVC_HOME=/var/vcap/packages/hadoop/commons-daemon
+
+#
+# Hadoop Common
+#
+
+# Directory to store the Hadoop configuration files
+export HADOOP_CONF_DIR=$JOB_DIR/config
+
+# Directory to store the Hadoop logs
+export HADOOP_LOG_DIR=$LOG_DIR
+
+# Directory to store the Hadoop process IDs
+export HADOOP_PID_DIR=$RUN_DIR
+
+#
+# Hadoop Service - HDFS
+#
+
+# Directory to store the HDFS logs
+export HDFS_LOG_DIR=$LOG_DIR
+
+# Directory to store the HDFS process ID
+export HDFS_PID_DIR=$RUN_DIR
+
+# Space separated list of directories where NameNode will store file system image
+export DFS_NAME_DIR=<%= p('namenode.name_dir') %>
+
+# Space separated list of directories where SecondaryNameNode will store checkpoint image
+export FS_CHECKPOINT_DIR=<%= p('namenode.checkpoint_dir') %>
+
+# Space separated list of directories where DataNodes will store the blocks
+export DFS_DATA_DIR=<%= p('datanode.data_dir') %>

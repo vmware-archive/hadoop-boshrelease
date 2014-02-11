@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+#
+# Apache HTTD
+#
+
+# Directory to store the HTTPD configuration files
+export HTTPD_CONF_DIR=$JOB_DIR/config
+
+# Directory to store the HTTPD logs
+export HTTPD_LOG_DIR=$LOG_DIR
+
+# Directory to store the HTTPD process IDs
+export HTTPD_PID_DIR=$RUN_DIR
+
+# Apache HTTPD control file.
+export APACHECTL=/var/vcap/packages/apache2/bin/apachectl

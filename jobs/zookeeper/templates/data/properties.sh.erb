@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+#
+# Users and Groups
+#
+
+# User which will own the ZooKeeper services
+export ZOOKEEPER_USER=zookeeper
+
+# A common group shared by services
+export HADOOP_GROUP=vcap
+
+#
+# Hadoop Service - ZOOKEEPER
+#
+
+# Directory to store the ZooKeeper configuration files
+export ZOOKEEPER_CONF_DIR=$JOB_DIR/config
+export ZOOCFGDIR=$ZOOKEEPER_CONF_DIR
+
+# Directory to store the ZooKeeper logs
+export ZOOKEEPER_LOG_DIR=$LOG_DIR
+export ZOO_LOG_DIR=$ZOOKEEPER_LOG_DIR
+
+# Directory to store the ZooKeeper process ID
+export ZOOKEEPER_PID_DIR=$RUN_DIR
+
+# Directory where ZooKeeper will store data.
+export ZOOKEEPER_DATA_DIR=<%= p('zookeeper.data_dir') %>

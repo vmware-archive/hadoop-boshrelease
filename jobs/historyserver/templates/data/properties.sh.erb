@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+#
+# Users and Groups
+#
+
+# User which will own the HDFS services
+export HDFS_USER=hdfs
+
+# User which will own the YARN services
+export YARN_USER=yarn
+
+# User which will own the MAPREDUCE services
+export MAPRED_USER=mapred
+
+# A common group shared by services
+export HADOOP_GROUP=vcap
+
+#
+# Hadoop Common
+#
+
+# Directory to store the Hadoop configuration files
+export HADOOP_CONF_DIR=$JOB_DIR/config
+
+# Directory to store the Hadoop logs
+export HADOOP_LOG_DIR=$LOG_DIR
+
+# Directory to store the Hadoop process IDs
+export HADOOP_PID_DIR=$RUN_DIR
+
+#
+# Hadoop Service - MAPREDUCE
+#
+
+# Directory to store the MapReduce daemon logs
+export MAPRED_LOG_DIR=$LOG_DIR
+
+# Directory to store the MapReduce jobhistory process ID
+export MAPRED_PID_DIR=$RUN_DIR

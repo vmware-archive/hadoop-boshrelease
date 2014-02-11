@@ -1,0 +1,44 @@
+#syntax: [prefix].[source|sink|jmx].[instance].[options]
+# See package.html for org.apache.hadoop.metrics2 for details
+
+*.sink.file.class=org.apache.hadoop.metrics2.sink.FileSink
+
+#namenode.sink.file.filename=namenode-metrics.out
+
+#datanode.sink.file.filename=datanode-metrics.out
+
+#resourcemanager.sink.file.filename=resourcemanager-metrics.out
+
+#nodemanager.sink.file.filename=nodemanager-metrics.out
+
+#maptask.sink.file.filename=maptask-metrics.out
+
+#reducetask.sink.file.filename=reducetask-metrics.out
+
+<% if_p('ganglia.mond.address', 'ganglia.mond.port') do |ganglia_address, ganglia_port| %>
+#
+# Below are for sending metrics to Ganglia
+#
+# for Ganglia 3.0 support
+# *.sink.ganglia.class=org.apache.hadoop.metrics2.sink.ganglia.GangliaSink30
+#
+# for Ganglia 3.1 support
+*.sink.ganglia.class=org.apache.hadoop.metrics2.sink.ganglia.GangliaSink31
+
+*.sink.ganglia.period=10
+
+# default for supportsparse is false
+*.sink.ganglia.supportsparse=true
+
+*.sink.ganglia.slope=jvm.metrics.gcCount=zero,jvm.metrics.memHeapUsedM=both
+*.sink.ganglia.dmax=jvm.metrics.threadsBlocked=70,jvm.metrics.memHeapUsedM=40
+
+namenode.sink.ganglia.servers=<%= ganglia_address %>:<%= ganglia_port %>
+datanode.sink.ganglia.servers=<%= ganglia_address %>:<%= ganglia_port %>
+resourcemanager.sink.ganglia.servers=<%= ganglia_address %>:<%= ganglia_port %>
+nodemanager.sink.ganglia.servers=<%= ganglia_address %>:<%= ganglia_port %>
+maptask.sink.ganglia.servers=<%= ganglia_address %>:<%= ganglia_port %>
+reducetask.sink.ganglia.servers=%= ganglia_address %>:<%= ganglia_port %>
+<% end %>
+
+*.period=60

@@ -1,0 +1,5 @@
+check process secondarynamenode
+  with pidfile /var/vcap/sys/run/secondarynamenode/hadoop-hdfs-secondarynamenode.pid
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger secondarynamenode_ctl '/var/vcap/jobs/secondarynamenode/bin/secondarynamenode_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger secondarynamenode_ctl '/var/vcap/jobs/secondarynamenode/bin/secondarynamenode_ctl stop'"
+  group vcap

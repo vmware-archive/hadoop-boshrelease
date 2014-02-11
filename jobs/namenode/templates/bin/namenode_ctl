@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+# Setup common env vars and folders
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'namenode'
+export NAMENODE_PID_FILE=$HDFS_PID_DIR/hadoop-hdfs-namenode.pid
+
+# Set the hostname
+hostname <%= index %>.<%= name %>.<%= spec.networks.methods(false).grep(/[^=]$/).first.to_s %>.<%= spec.deployment %>.<%= spec.dns_domain_name %>
+
+case $1 in
+
+  start)
+    pid_guard $NAMENODE_PID_FILE $JOB_NAME
+    echo $$ > $NAMENODE_PID_FILE
+
+    # Create hadoop supergroup
+    getent group $HADOOP_GROUP &>/dev/null || groupadd $HADOOP_GROUP
+
+    # Create hdfs user
+    id $HDFS_USER &>/dev/null || useradd -s /sbin/nologin -r -M $HDFS_USER -G $HADOOP_GROUP
+
+    # Create and format namenode directory
+    if [ ! -d $DFS_NAME_DIR ]; then
+      mkdir -p $DFS_NAME_DIR
+      chown -R $HDFS_USER:$HADOOP_GROUP $DFS_NAME_DIR;
+      chmod -R 755 $DFS_NAME_DIR;
+      sudo -E -u $HDFS_USER hdfs namenode -format >>$LOG_DIR/$JOB_NAME.stdout.log 2>>$LOG_DIR/$JOB_NAME.stderr.log
+    fi
+
+    # Start namenode
+    exec chpst -u $HDFS_USER:$HADOOP_GROUP hdfs namenode >>$LOG_DIR/$JOB_NAME.stdout.log 2>>$LOG_DIR/$JOB_NAME.stderr.log
+    ;;
+
+  stop)
+    kill_and_wait $NAMENODE_PID_FILE
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

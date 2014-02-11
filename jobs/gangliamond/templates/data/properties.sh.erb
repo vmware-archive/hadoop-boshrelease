@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+#
+# Ganglia mond
+#
+
+# Directory to store the gmond configuration files
+export GMOND_CONF_DIR=$JOB_DIR/config
+
+# Directory to store the gmond logs
+export GMOND_LOG_DIR=$LOG_DIR
+
+# Directory to store the gmond process IDs
+export GMOND_PID_DIR=$RUN_DIR

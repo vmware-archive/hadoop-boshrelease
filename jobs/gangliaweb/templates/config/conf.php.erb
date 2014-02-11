@@ -1,0 +1,13 @@
+<?php
+
+$conf['gweb_confdir'] = "/var/vcap/sys/tmp/gangliaweb";
+$conf['dwoo_compiled_dir'] = "${conf['gweb_confdir']}/dwoo/compiled";
+$conf['dwoo_cache_dir'] = "${conf['gweb_confdir']}/dwoo/cache";
+$conf['views_dir'] = $conf['gweb_confdir'] . '/conf';
+$conf['conf_dir'] = $conf['gweb_confdir'] . '/conf';
+$conf['overlay_events_file'] = $conf['conf_dir'] . "/events.json";
+$conf['overlay_events_color_map_file'] = $conf['conf_dir'] . "/event_color.json";
+$conf['rrdtool'] = "/var/vcap/packages/ganglia/rrd/bin/rrdtool";
+$conf['rrds'] = "<%= p('ganglia.metad.rrd_rootdir') %>";
+
+?>

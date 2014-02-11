@@ -1,0 +1,145 @@
+<configuration>
+  <property>
+    <name>yarn.nodemanager.address</name>
+    <value>0.0.0.0:<%= p('nodemanager.port') %></value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.admin-env</name>
+    <value>MALLOC_ARENA_MAX=$MALLOC_ARENA_MAX</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.aux-services</name>
+    <value>mapreduce_shuffle</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+    <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.container-executor.class</name>
+    <value>org.apache.hadoop.yarn.server.nodemanager.DefaultContainerExecutor</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.container-monitor.interval-ms</name>
+    <value>3000</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.delete.debug-delay-sec</name>
+    <value>120</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.disk-health-checker.min-healthy-disks</name>
+    <value>0.25</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.health-checker.interval-ms</name>
+    <value>135000</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.health-checker.script.timeout-ms</name>
+    <value>60000</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.health-checker.script.path</name>
+    <value>/var/vcap/jobs/resourcemanager/bin/health_check</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.local-dirs</name>
+    <value><%= p('yarn.local_dir')%></value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.log-dirs</name>
+    <value><%= p('yarn.local_log_dir')%></value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.log-aggregation.compression-type</name>
+    <value>gz</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.log.retain-second</name>
+    <value>604800</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.remote-app-log-dir</name>
+    <value>/app-logs</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.remote-app-log-dir-suffix</name>
+    <value>logs</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.resource.memory-mb</name>
+    <value><%= p('nodemanager.resource_memory_mb') %></value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.resource.cpu-vcores</name>
+    <value><%= p('nodemanager.resource_cpu_vcores') %></value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.vmem-pmem-ratio</name>
+    <value><%= p('nodemanager.vmem_pmem_ratio') %></value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.address</name>
+    <value><%= p('resourcemanager.address') %>:<%= p('resourcemanager.port') %></value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.admin.address</name>
+    <value><%= p('resourcemanager.address') %>:<%= p('resourcemanager.admin_port') %></value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.resource-tracker.address</name>
+    <value><%= p('resourcemanager.address') %>:<%= p('resourcemanager.resource_tracker_port') %></value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.scheduler.address</name>
+    <value><%= p('resourcemanager.address') %>:<%= p('resourcemanager.scheduler_port') %></value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.webapp.address</name>
+    <value><%= p('resourcemanager.address') %>:<%= p('resourcemanager.webapp_port') %></value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.am.max-attempts</name>
+    <value>2</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.scheduler.class</name>
+    <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler</value>
+  </property>
+  <property>
+    <name>yarn.log.server.url</name>
+    <value><%= p('jobhistory.address') %>:<%= p('jobhistory.webapp_port') %>/jobhistory/logs</value>
+  </property>
+  <property>
+    <name>yarn.log-aggregation-enable</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>yarn.log-aggregation.retain-seconds</name>
+    <value>2592000</value>
+  </property>
+  <property>
+    <name>yarn.application.classpath</name>
+    <value>
+      $HADOOP_CONF_DIR,
+      /var/vcap/packages/hadoop/share/hadoop/common/*,
+      /var/vcap/packages/hadoop/share/hadoop/common/*,
+      /var/vcap/packages/hadoop/share/hadoop/common/lib/*,
+      /var/vcap/packages/hadoop/share/hadoop/hdfs/*,
+      /var/vcap/packages/hadoop/share/hadoop/hdfs/lib/*,
+      /var/vcap/packages/hadoop/share/hadoop/mapreduce/*,
+      /var/vcap/packages/hadoop/share/hadoop/mapreduce/lib/*,
+      /var/vcap/packages/hadoop/share/hadoop/yarn/*,
+      /var/vcap/packages/hadoop/share/hadoop/yarn/lib/*,
+    </value>
+  </property>
+  <property>
+    <name>yarn.scheduler.minimum-allocation-mb</name>
+    <value><%= p('yarn.scheduler_minimum_allocation_mb') %></value>
+  </property>
+  <property>
+    <name>yarn.scheduler.minimum-allocation-vcores</name>
+    <value><%= p('yarn.scheduler_minimum_allocation_vcores') %></value>
+  </property>
+</configuration>

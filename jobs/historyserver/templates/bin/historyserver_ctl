@@ -1,0 +1,50 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+# Setup common env vars and folders
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'historyserver'
+export HISTORYSERVER_PID_FILE=$MAPRED_PID_DIR/hadoop-mapred-historyserver.pid
+
+# Set the hostname
+hostname <%= index %>.<%= name %>.<%= spec.networks.methods(false).grep(/[^=]$/).first.to_s %>.<%= spec.deployment %>.<%= spec.dns_domain_name %>
+
+case $1 in
+
+  start)
+    pid_guard $HISTORYSERVER_PID_FILE $JOB_NAME
+    echo $$ > $HISTORYSERVER_PID_FILE
+
+    # Create hadoop supergroup
+    getent group $HADOOP_GROUP &>/dev/null || groupadd $HADOOP_GROUP
+
+    # Create users
+    id $HDFS_USER &>/dev/null || useradd -s /sbin/nologin -r -M $HDFS_USER -G $HADOOP_GROUP
+    id $YARN_USER &>/dev/null || useradd -s /sbin/nologin -r -M $YARN_USER -G $HADOOP_GROUP
+    id $MAPRED_USER &>/dev/null || useradd -s /sbin/nologin -r -M $MAPRED_USER -G $HADOOP_GROUP
+
+    # Setup directories on HDFS
+    chpst -u $HDFS_USER:$HADOOP_GROUP hadoop fs -mkdir -p /mr-history/tmp
+    chpst -u $HDFS_USER:$HADOOP_GROUP hadoop fs -chmod -R 1777 /mr-history/tmp
+    chpst -u $HDFS_USER:$HADOOP_GROUP hadoop fs -mkdir -p /mr-history/done
+    chpst -u $HDFS_USER:$HADOOP_GROUP hadoop fs -chmod -R 1777 /mr-history/done
+    chpst -u $HDFS_USER:$HADOOP_GROUP hadoop fs -chown -R $MAPRED_USER:$HADOOP_GROUP /mr-history
+    chpst -u $HDFS_USER:$HADOOP_GROUP hadoop fs -mkdir -p /app-logs
+    chpst -u $HDFS_USER:$HADOOP_GROUP hadoop fs -chmod -R 1777 /app-logs
+    chpst -u $HDFS_USER:$HADOOP_GROUP hadoop fs -chown $YARN_USER:$HADOOP_GROUP /app-logs
+
+    # Start historyserver
+    exec chpst -u $MAPRED_USER:$HADOOP_GROUP mapred historyserver >>$LOG_DIR/$JOB_NAME.stdout.log 2>>$LOG_DIR/$JOB_NAME.stderr.log
+    ;;
+
+  stop)
+    kill_and_wait $HISTORYSERVER_PID_FILE
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

@@ -1,0 +1,168 @@
+<% num_slaves = 3 %>
+<% num_zookeepers = 3 %>
+<% deployment_name = "hadoop-openstack" %>
+<% os = "centos" %>
+<% tld = "microbosh" %>
+<% director_uuid = "CHANGE-ME" %>
+---
+name: <%= deployment_name %>
+director_uuid: <%= director_uuid %>
+
+releases:
+ - name: hadoop
+   version: latest
+
+compilation:
+  workers: 10
+  network: default
+  reuse_compilation_vms: true
+  cloud_properties:
+    instance_type: m1.xlarge
+
+update:
+  canaries: 0
+  canary_watch_time: 30000-600000
+  update_watch_time: 30000-600000
+  max_in_flight: <%= 4 + num_zookeepers + num_slaves %>
+  serial: false
+
+networks:
+  - name: default
+    type: dynamic
+    cloud_properties:
+      security_groups: ['default']
+
+resource_pools:
+  - name: large
+    network: default
+    size: 2
+    stemcell:
+      name: bosh-openstack-kvm-<%= os %>
+      version: latest
+    cloud_properties:
+      instance_type: m1.large
+
+  - name: xlarge
+    network: default
+    size: 2
+    stemcell:
+      name: bosh-openstack-kvm-<%= os %>
+      version: latest
+    cloud_properties:
+      instance_type: m1.xlarge
+
+  - name: zookeepers
+    network: default
+    size: <%= num_zookeepers %>
+    stemcell:
+      name: bosh-openstack-kvm-<%= os %>
+      version: latest
+    cloud_properties:
+      instance_type: m1.medium
+
+  - name: slaves
+    network: default
+    size: <%= num_slaves %>
+    stemcell:
+      name: bosh-openstack-kvm-<%= os %>
+      version: latest
+    cloud_properties:
+      instance_type: m1.xlarge
+
+jobs:
+  - name: ganglia
+    template:
+      - gangliamond
+      - gangliametad
+      - gangliaweb
+    instances: 1
+    resource_pool: xlarge
+    persistent_disk: 204800
+    networks:
+      - name: default
+        default: [dns, gateway]
+
+  - name: zookeeper
+    template:
+      - gangliamond
+      - zookeeper
+    instances: <%= num_zookeepers %>
+    resource_pool: zookeepers
+    networks:
+      - name: default
+        default: [dns, gateway]
+
+  - name: hdfs
+    template:
+      - gangliamond
+      - namenode
+    instances: 1
+    resource_pool: large
+    networks:
+      - name: default
+        default: [dns, gateway]
+
+  - name: secondaryhdfs
+    template:
+      - gangliamond
+      - secondarynamenode
+    instances: 1
+    resource_pool: large
+    networks:
+      - name: default
+        default: [dns, gateway]
+
+  - name: yarn
+    template:
+      - gangliamond
+      - resourcemanager
+      - historyserver
+    instances: 1
+    resource_pool: xlarge
+    networks:
+      - name: default
+        default: [dns, gateway]
+
+  - name: slave
+    template:
+      - gangliamond
+      - datanode
+      - nodemanager
+      - regionserver
+    instances: <%= num_slaves %>
+    resource_pool: slaves
+    networks:
+      - name: default
+        default: [dns, gateway]
+
+properties:
+  ganglia:
+    mond:
+      address: 0.ganglia.default.<%= deployment_name %>.<%= tld %>
+    web:
+      servername: 0.ganglia.default.<%= deployment_name %>.<%= tld %>
+  resourcemanager:
+    address: 0.yarn.default.<%= deployment_name %>.<%= tld %>
+  jobhistory:
+    address: 0.yarn.default.<%= deployment_name %>.<%= tld %>
+  zookeeper:
+    servers:
+      <% num_zookeepers.times do |i| %>
+      <%= "- #{i}.zookeeper.default.#{deployment_name}.#{tld}\n" %>
+      <% end %>
+  regionserver:
+    servers:
+      <% num_slaves.times do |i| %>
+      <%= "- #{i}.slave.default.#{deployment_name}.#{tld}\n" %>
+      <% end %>
+  dfs:
+    address: 0.hdfs.default.<%= deployment_name %>.<%= tld %>
+    blocksize: 134217728
+    replication: 3
+  mapreduce:
+    map_java_opts: -Xmx1280m
+    reduce_java_opts: -Xmx2304m
+  yarn:
+    scheduler_minimum_allocation_mb: 512
+  nodemanager:
+    resource_memory_mb: 12288

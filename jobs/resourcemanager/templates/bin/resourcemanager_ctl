@@ -1,0 +1,51 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+# Setup common env vars and folders
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'resourcemanager'
+export RESOURCEMANAGER_PID_FILE=$YARN_PID_DIR/hadoop-yarn-resourcemanager.pid
+
+# Set the hostname
+hostname <%= index %>.<%= name %>.<%= spec.networks.methods(false).grep(/[^=]$/).first.to_s %>.<%= spec.deployment %>.<%= spec.dns_domain_name %>
+
+case $1 in
+
+  start)
+    pid_guard $RESOURCEMANAGER_PID_FILE $JOB_NAME
+    echo $$ > $RESOURCEMANAGER_PID_FILE
+
+    # Create hadoop supergroup
+    getent group $HADOOP_GROUP &>/dev/null || groupadd $HADOOP_GROUP
+
+    # Create yarn user
+    id $YARN_USER &>/dev/null || useradd -s /sbin/nologin -r -M $YARN_USER -G $HADOOP_GROUP
+
+    # Create yarn local dirs
+    if [ ! -d $YARN_LOCAL_DIR ]; then
+      mkdir -p $YARN_LOCAL_DIR;
+      chown -R $YARN_USER:$HADOOP_GROUP $YARN_LOCAL_DIR;
+      chmod -R 755 $YARN_LOCAL_DIR;
+    fi
+
+    if [ ! -d $YARN_LOCAL_LOG_DIR ]; then
+      mkdir -p $YARN_LOCAL_LOG_DIR;
+      chown -R $YARN_USER:$HADOOP_GROUP $YARN_LOCAL_LOG_DIR;
+      chmod -R 755 $YARN_LOCAL_LOG_DIR;
+    fi
+
+    # Start resourcemanager
+    exec chpst -u $YARN_USER:$HADOOP_GROUP yarn resourcemanager >>$LOG_DIR/$JOB_NAME.stdout.log 2>>$LOG_DIR/$JOB_NAME.stderr.log
+    ;;
+
+  stop)
+    kill_and_wait $RESOURCEMANAGER_PID_FILE
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

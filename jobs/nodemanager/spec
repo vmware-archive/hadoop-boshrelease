@@ -1,0 +1,101 @@
+---
+name: nodemanager
+
+packages:
+  - bosh-helpers
+  - java7
+  - hadoop
+
+templates:
+  bin/nodemanager_ctl: bin/nodemanager_ctl
+  config/capacity-scheduler.xml: config/capacity-scheduler.xml
+  config/commons-logging.properties: config/commons-logging.properties
+  config/container-executor.cfg.erb: config/container-executor.cfg
+  config/core-site.xml.erb: config/core-site.xml
+  config/hadoop-env.sh: config/hadoop-env.sh
+  config/hadoop-metrics2.properties.erb: config/hadoop-metrics2.properties
+  config/hadoop-policy.xml: config/hadoop-policy.xml
+  config/log4j.properties: config/log4j.properties
+  config/mapred-queue-acls.xml: config/mapred-queue-acls.xml
+  config/mapred-site.xml.erb: config/mapred-site.xml
+  config/yarn-site.xml.erb: config/yarn-site.xml
+  data/properties.sh.erb: data/properties.sh
+
+properties:
+  dfs.address:
+    description: HDFS address
+  dfs.port:
+    description: HDFS port
+    default: 8020
+  dfs.trash_interval:
+    description: HDFS Trash interval
+    default: 1440
+  dfs.checkpoint_size:
+    description:
+    default: 0.5
+  namenode.checkpoint_dir:
+    description: Directory where SecondaryNameNode should store the checkpoint image
+    default: /var/vcap/store/hadoop/hdfs/snn
+  namenode.checkpoint_edits_dir:
+    description: Directory where SecondaryNameNode should store the temporary edits to merge
+    default: /var/vcap/store/hadoop/hdfs/nns
+  nodemanager.port:
+    description: Nodemanager port
+    default: 45454
+  nodemanager.resource_memory_mb:
+    description: Nodemanager resource memory mb
+    default: 8192
+  nodemanager.resource_cpu_vcores:
+    description: Nodemanager resource cpu vcores
+    default: 8
+  nodemanager.vmem_pmem_ratio:
+    description: Nodemanager vmem-pmem-ratio
+    default: 2.1
+  resourcemanager.address:
+    description: Resourcemanager address
+  resourcemanager.port:
+    description: Resourcemanager port
+    default: 8050
+  resourcemanager.admin_port:
+    description: Resourcemanager admin port
+    default: 8141
+  resourcemanager.resource_tracker_port:
+    description: Resourcemanager resource tracker port
+    default: 8025
+  resourcemanager.scheduler_port:
+    description: Resourcemanager scheduler port
+    default: 8030
+  resourcemanager.webapp_port:
+    description: Resourcemanager webapp port
+    default: 8088
+  jobhistory.address:
+    description: JobHistory address
+  jobhistory.port:
+    description: JobHistory port
+    default: 10020
+  jobhistory.webapp_port:
+    description: JobHistory webapp port
+    default: 19888
+  yarn.local_dir:
+    description: Directory where YARN should store temporary data
+    default: /var/vcap/store/hadoop/yarn/local
+  yarn.local_log_dir:
+    description: Directory where YARN should store container log data
+    default: /var/vcap/store/hadoop/yarn/logs
+  yarn.scheduler_minimum_allocation_mb:
+    description:
+    default: 1024
+  yarn.scheduler_minimum_allocation_vcores:
+    description:
+    default: 1
+  mapreduce.map_java_opts:
+   description: MapReduce map java opts
+   default: -Xmx1024M
+  mapreduce.reduce_java_opts:
+    description: MapReduce reduce java opts
+    default: -Xmx2560M
+  ganglia.mond.address:
+    description: Ganglia mond master address
+  ganglia.mond.port:
+    description: Ganglia mond port
+    default: 8649

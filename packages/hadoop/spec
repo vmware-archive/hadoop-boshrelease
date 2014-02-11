@@ -1,0 +1,11 @@
+---
+name: hadoop
+dependencies:
+  - java7
+files:
+  - hadoop/hadoop-2.2.0-src.tar.gz
+  - hadoop/hadoop-2.2.0-dependencies.tar.gz
+  - hadoop/HADOOP-10110.patch
+  - commons-daemon/commons-daemon-1.0.15-bin.tar.gz
+  - maven/apache-maven-3.1.1-bin.tar.gz
+  - protobuf/protobuf-2.5.0.tar.gz

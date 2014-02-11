@@ -1,0 +1,18 @@
+---
+name: gangliamond
+
+packages:
+  - bosh-helpers
+  - ganglia
+
+templates:
+  bin/gangliamond_ctl: bin/gangliamond_ctl
+  config/gmond.conf.erb: config/gmond.conf
+  data/properties.sh.erb: data/properties.sh
+
+properties:
+  ganglia.mond.port:
+    description: Ganglia mond port
+    default: 8649
+  ganglia.mond.address:
+    description: Ganglia mond master address

@@ -1,0 +1,154 @@
+<configuration>
+  <property>
+    <name>dfs.blocksize</name>
+    <value><%= p('dfs.blocksize') %></value>
+  </property>
+  <property>
+    <name>dfs.block.access.token.enable</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>dfs.block.local-path-access.user</name>
+    <value>hbase</value>
+  </property>
+  <property>
+    <name>dfs.blockreport.initialDelay</name>
+    <value>120</value>
+  </property>
+  <property>
+    <name>dfs.client.read.shortcircuit</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>dfs.client.read.shortcircuit.streams.cache.size</name>
+    <value>4096</value>
+  </property>
+  <property>
+    <name>dfs.cluster.administrators</name>
+    <value>hdfs</value>
+  </property>
+  <property>
+    <name>dfs.datanode.address</name>
+    <value>0.0.0.0:<%= p('datanode.port') %></value>
+  </property>
+  <property>
+    <name>dfs.datanode.http.address</name>
+    <value>0.0.0.0:<%= p('datanode.http_port') %></value>
+  </property>
+  <property>
+    <name>dfs.datanode.ipc.address</name>
+    <value>0.0.0.0:<%= p('datanode.ipc_port') %></value>
+  </property>
+  <property>
+    <name>dfs.datanode.balance.bandwidthPerSec</name>
+    <value>6250000</value>
+  </property>
+  <property>
+    <name>dfs.datanode.data.dir</name>
+    <value>file://<%= p('datanode.data_dir') %></value>
+  </property>
+  <property>
+    <name>dfs.datanode.data.dir.perm</name>
+    <value>750</value>
+  </property>
+  <property>
+    <name>dfs.datanode.du.reserved</name>
+    <value>1</value>
+  </property>
+  <property>
+    <name>dfs.datanode.failed.volumes.tolerated</name>
+    <value>0</value>
+  </property>
+  <property>
+    <name>dfs.datanode.max.transfer.threads</name>
+    <value>1024</value>
+  </property>
+  <property>
+    <name>dfs.domain.socket.path</name>
+    <value>/var/run/hdfs/dn_socket</value>
+  </property>
+  <property>
+    <name>dfs.namenode.accesstime.precision</name>
+    <value>0</value>
+  </property>
+  <property>
+    <name>dfs.namenode.avoid.read.stale.datanode</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>dfs.namenode.avoid.write.stale.datanode</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>dfs.namenode.stale.datanode.interval</name>
+    <value>30000</value>
+  </property>
+  <property>
+    <name>dfs.namenode.write.stale.datanode.ratio</name>
+    <value>1.0f</value>
+  </property>
+  <property>
+    <name>dfs.namenode.name.dir</name>
+    <value>file://<%= p('namenode.name_dir') %></value>
+  </property>
+  <property>
+    <name>dfs.namenode.checkpoint.dir</name>
+    <value>file://<%= p('namenode.checkpoint_dir') %></value>
+  </property>
+  <property>
+    <name>dfs.namenode.http-address</name>
+    <value>0.0.0.0:<%= p('namenode.http_port') %></value>
+  </property>
+  <property>
+    <name>dfs.https.namenode.https-address</name>
+    <value>0.0.0.0:<%= p('namenode.https_port') %></value>
+  </property>
+  <property>
+    <name>dfs.namenode.secondary.http-address</name>
+    <value>0.0.0.0:<%= p('secondarynamenode.http_port') %></value>
+  </property>
+  <property>
+    <name>dfs.namenode.handler.count</name>
+    <value><%= p('namenode.handler_count') %></value>
+  </property>
+  <property>
+    <name>dfs.namenode.safemode.threshold-pct</name>
+    <value>1.0f</value>
+  </property>
+  <property>
+    <name>dfs.heartbeat.interval</name>
+    <value>3</value>
+  </property>
+  <property>
+    <name>dfs.journalnode.edits.dir</name>
+    <value><%= p('journalnode.edits_dir') %></value>
+  </property>
+  <property>
+    <name>dfs.journalnode.http-address</name>
+    <value>0.0.0.0:<%= p('journalnode.http_port') %></value>
+  </property>
+  <property>
+    <name>dfs.permissions.superusergroup</name>
+    <value>vcap</value>
+  </property>
+  <property>
+    <name>dfs.permissions.enabled</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>dfs.replication</name>
+    <value><%= p('dfs.replication') %></value>
+  </property>
+  <property>
+    <name>dfs.replication.max</name>
+    <value><%= p('dfs.max_replication') %></value>
+  </property>
+  <property>
+    <name>dfs.webhdfs.enabled</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>fs.permissions.umask-mode</name>
+    <value>022</value>
+  </property>
+</configuration>

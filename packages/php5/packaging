@@ -1,0 +1,29 @@
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+APACHE2_DIR=/var/vcap/packages/apache2
+
+# Detect # of CPUs so make jobs can be parallelized
+CPUS=`grep -c ^processor /proc/cpuinfo`
+
+# We grab the latest versions that are in the directory
+PHP5_VERSION=`ls -r php5/php-*.tar.gz | sed 's/php5\/php-\(.*\)\.tar\.gz/\1/' | head -1`
+
+# Extract PHP package
+echo "Extracting PHP ${PHP5_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/php5/php-${PHP5_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting PHP ${PHP5_VERSION}"
+  exit 1
+fi
+
+# Build PHP package
+echo "Building PHP ${PHP5_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/php-${PHP5_VERSION}
+./configure --prefix=${BOSH_INSTALL_TARGET} --with-apxs2=${APACHE2_DIR}/bin/apxs
+make -j${CPUS}
+make install
+
+# PHP installs the shared object in the apache module dir, so we need to copy it back to the PHP package dir
+mkdir -p ${BOSH_INSTALL_TARGET}/modules
+cp ${APACHE2_DIR}/modules/libphp5.so ${BOSH_INSTALL_TARGET}/modules

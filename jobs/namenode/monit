@@ -1,0 +1,5 @@
+check process namenode
+  with pidfile /var/vcap/sys/run/namenode/hadoop-hdfs-namenode.pid
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger namenode_ctl '/var/vcap/jobs/namenode/bin/namenode_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger namenode_ctl '/var/vcap/jobs/namenode/bin/namenode_ctl stop'"
+  group vcap

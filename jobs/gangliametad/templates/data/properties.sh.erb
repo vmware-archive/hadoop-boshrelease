@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+#
+# Ganglia metad
+#
+
+# Directory to store the gmetad configuration files
+export GMETAD_CONF_DIR=$JOB_DIR/config
+
+# Directory to store the gmetad logs
+export GMETAD_LOG_DIR=$LOG_DIR
+
+# Directory to store the gmetad process IDs
+export GMETAD_PID_DIR=$RUN_DIR
+
+# Directory to store gmetad Round Robin databases
+export GMETAD_RRD_ROOTDIR=<%= p('ganglia.metad.rrd_rootdir') %>

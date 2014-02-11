@@ -1,0 +1,33 @@
+---
+name: regionserver
+
+packages:
+  - bosh-helpers
+  - java7
+  - hbase
+
+templates:
+  bin/regionserver_ctl: bin/regionserver_ctl
+  config/hadoop-metrics.properties.erb: config/hadoop-metrics.properties
+  config/hbase-policy.xml: config/hbase-policy.xml
+  config/hbase-env.sh: config/hbase-env.sh
+  config/hbase-site.xml.erb: config/hbase-site.xml
+  config/log4j.properties: config/log4j.properties
+  config/regionservers.erb: config/regionservers
+  data/properties.sh.erb: data/properties.sh
+
+properties:
+  dfs.address:
+    description: HDFS address
+  dfs.port:
+    description: HDFS port
+    default: 8020
+  zookeeper.servers:
+    description: List of all zookeeper server host IP/hostnames
+  regionserver.servers:
+    description: List of all HBase regionservers host IP/hostnames
+  ganglia.mond.address:
+    description: Ganglia mond master address
+  ganglia.mond.port:
+    description: Ganglia mond port
+    default: 8649
