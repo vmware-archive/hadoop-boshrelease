@@ -1,0 +1,131 @@
+---
+packages:
+- name: php5
+  version: 1
+  sha1: !binary |-
+    YWM1MzEwMTQwN2QyN2FhNzljNzgxMzNhMDg3ZTk3OWNjNjczOWY2Mw==
+  fingerprint: !binary |-
+    ZWNjOWNlMWY5MWExZmU4ZjRhYWYzMzY2OTZlZDc1NzNiNThlZGYyMA==
+  dependencies:
+  - apache2
+- name: hadoop
+  version: 1
+  sha1: !binary |-
+    NWY2MWZmOWMxOTAxNGRhZDNjOTE5NzBlZDExNmIyYWE0ZjNlYjI4Yw==
+  fingerprint: !binary |-
+    Y2FiYzJmODQ4OTc0ZDMwMDY0NmI4ZjAxYmZlY2E5MjBkMWZjZjljMg==
+  dependencies:
+  - java7
+- name: zookeeper
+  version: 1
+  sha1: !binary |-
+    ZWRiOTE1MmMxZDRiYTNhYTU4Y2ZjNmEyZjFiNjYzODQ4NzNjNTBhZg==
+  fingerprint: !binary |-
+    ZWM3M2YxMDBiNzZlMDU4ZGUzYWQxNDk2NjgxMGY3MWUxYTBlYTM5Yg==
+  dependencies: []
+- name: java7
+  version: 1
+  sha1: !binary |-
+    YmY3MTg0OGQyOTg1MmY3YWNhZGE5YmQzNmE2NWM2ZDc2MDYwZWRlZg==
+  fingerprint: !binary |-
+    MTMxNjk2ZTJjNDdjOGY1YTVhMzIyYzAwNDI4ZjJkM2M5MTA0OWExMw==
+  dependencies: []
+- name: hbase
+  version: 1
+  sha1: !binary |-
+    MmM4ZGJkNzM5NjgxMDA5MzEzNDUyOTA3NzllZDY3YTg4ODBkNjljYQ==
+  fingerprint: !binary |-
+    YzI0Mzk2NjhlNWY2OGVhMWRjNTgxM2Y4YTE1OWQxMTBiNjBhZGU4Yw==
+  dependencies: []
+- name: apache2
+  version: 1
+  sha1: !binary |-
+    Y2Q2YWVjMmNhNzY0MjVlNTQ2MTdmY2M4Mjc2OGU0MjQxNDNmNmI0Mg==
+  fingerprint: !binary |-
+    MTFlNDEzNTRmYzcyMzJmNWE1N2U3NjBhN2NkY2ZhNGM0YTY4ODBlZA==
+  dependencies: []
+- name: ganglia
+  version: 1
+  sha1: !binary |-
+    OTUwMTFiOWIyOGI4MmVkOWFhMGU1MzM0NDIyMmYxOWFiYjU5NzU4OQ==
+  fingerprint: !binary |-
+    NzI5YjhkMGE0NWIzZWNhNmFlNmQ0YTg4ZWE4MGMxZWZmY2FhNmViMw==
+  dependencies: []
+- name: bosh-helpers
+  version: 1
+  sha1: !binary |-
+    M2FkN2FjNzhhMGNhOTMxNDU0MzM4MDYwZTkyYzcwZmQ0NjNjZjgzOA==
+  fingerprint: !binary |-
+    MGQ0MjRlYWRkODMzZDg1MGE0Mjg2Mzk1MDI2NzQzM2Q2OWM4NGY4MQ==
+  dependencies: []
+jobs:
+- name: secondarynamenode
+  version: 1
+  fingerprint: !binary |-
+    YmIyZGRmMWM0ODExZjg0YzgyYzhjMGMxNzFkMDExYzg2MWFjZWI5ZQ==
+  sha1: !binary |-
+    ZjBjYTZjMjg1ODYwNWM1YjNkYWM4OGJmZDU5MzEzNzQyMmJhZDNlYQ==
+- name: resourcemanager
+  version: 1
+  fingerprint: !binary |-
+    MDY1NDdmM2JiMjQzM2NjMWU2NDRiNjFhZmY3OTExYmNiMmFiZmRjNA==
+  sha1: !binary |-
+    YTUzODE4ZjU4NGExMDY1MTBiMjQyMTVjMzc4M2Y3NjJhOGI0ZjcwYg==
+- name: gangliaweb
+  version: 1
+  fingerprint: !binary |-
+    N2U2Y2UxOGFhOWQ5MWY5ZDQ0MzIwMTQwZDAxZTAyYjBhMWY3MmM2Mg==
+  sha1: !binary |-
+    OTkzMjQ0NjQxMTU5NjI5ODJjYWVhM2VmOWRlZTViODdmNWQwNTBhYg==
+- name: nodemanager
+  version: 1
+  fingerprint: !binary |-
+    MzI3NDE4ZjIwZTk1NGE4Y2M0N2RhNDk4MWU1ODhiYWM5NzhhYTY2Ng==
+  sha1: !binary |-
+    NzRhMGFiZTljM2I5Yjg4NTExNDA1NDQ0YjNlYmM0ODVkZGUyMTJjOQ==
+- name: zookeeper
+  version: 1
+  fingerprint: !binary |-
+    ZjY0MGUxZDM0Y2FkYzZkNmNlODJkYzRkMjEzYWQ3ZDAyNWQ3ZWU5Nw==
+  sha1: !binary |-
+    YTM5MDk2NGI3M2ZlNGY4NjFhMmNlNWMyMTI5MDFiY2E1NmVlNDY4Mg==
+- name: gangliametad
+  version: 1
+  fingerprint: !binary |-
+    ODdiZmFiZjgyYjliNmUyZWRjMTdhOWI0NGI5MTYxYWYxY2IxNzhhYw==
+  sha1: !binary |-
+    NjliNTdkZGVjYWU5NTYxZmM4YWUyNWNjMWUyNDMwODZlOWZiMDBkMg==
+- name: regionserver
+  version: 1
+  fingerprint: !binary |-
+    ODAwMmFhMTJlNjEwYzkzM2E2YTM4YWFlOTc1NGVhYWMxOWNjNjVhMw==
+  sha1: !binary |-
+    MTM4NGU2NjgyYWRjM2Q5Zjc3M2EwNTk1ZmUxNTI3M2E1N2Q0NGFjZQ==
+- name: namenode
+  version: 1
+  fingerprint: !binary |-
+    NDRkM2QwMzYzOWVlZThhMGM2ZjM5ZWE1MzAzZThhMDQxNTdhMWI4MQ==
+  sha1: !binary |-
+    NGQ5NDdkZTdjMjEzODMwY2I5ZDAzYzEzYzNkZjk0MzY2YzNjMzA0OA==
+- name: historyserver
+  version: 1
+  fingerprint: !binary |-
+    NDVkYjAzMzllNzU3ODM5ZGIyMmUyYTIyOWJkNjgzNmMzZjVmODk0ZA==
+  sha1: !binary |-
+    NTBkYTU4NTk4NGRhZjFkOGQ5NjhlNjcyNWNiM2IxNDY3ZTNjNGNlNw==
+- name: datanode
+  version: 1
+  fingerprint: !binary |-
+    Njc2MmIyY2Q2YzcyM2QyNTYzOWQ2NGM2ODIzNTczNzlmMTUyZTdkYw==
+  sha1: !binary |-
+    MjhmNWRmZDFmMzVhODU3ZGI4NDJlMzk4OWVlNjRkNGI3ZDJiMDAzMQ==
+- name: gangliamond
+  version: 1
+  fingerprint: !binary |-
+    YzU3YWYyYWRiMmFlODU5ZWEyMmQwMjRlNTFkOTY4NzA0OTNjOGUzNA==
+  sha1: !binary |-
+    MWZlYjEwNGJjOTg2NjdiMjkzYWQ5ZDA3ZjVhOGUxMjFjMTNiODY5MA==
+commit_hash: c1538147
+uncommitted_changes: true
+name: hadoop
+version: 1
