@@ -71,10 +71,10 @@ resource_pools:
 
 jobs:
   - name: ganglia
-    template:
-      - gangliamond
-      - gangliametad
-      - gangliaweb
+    templates:
+      - name: gangliamond
+      - name: gangliametad
+      - name: gangliaweb
     instances: 1
     resource_pool: xlarge
     persistent_disk: 204800
@@ -83,9 +83,9 @@ jobs:
         default: [dns, gateway]
 
   - name: zookeeper
-    template:
-      - gangliamond
-      - zookeeper
+    templates:
+      - name: gangliamond
+      - name: zookeeper
     instances: <%= num_zookeepers %>
     resource_pool: zookeepers
     networks:
@@ -93,9 +93,9 @@ jobs:
         default: [dns, gateway]
 
   - name: hdfs
-    template:
-      - gangliamond
-      - namenode
+    templates:
+      - name: gangliamond
+      - name: namenode
     instances: 1
     resource_pool: large
     networks:
@@ -103,9 +103,9 @@ jobs:
         default: [dns, gateway]
 
   - name: secondaryhdfs
-    template:
-      - gangliamond
-      - secondarynamenode
+    templates:
+      - name: gangliamond
+      - name: secondarynamenode
     instances: 1
     resource_pool: large
     networks:
@@ -113,10 +113,10 @@ jobs:
         default: [dns, gateway]
 
   - name: yarn
-    template:
-      - gangliamond
-      - resourcemanager
-      - historyserver
+    templates:
+      - name: gangliamond
+      - name: resourcemanager
+      - name: historyserver
     instances: 1
     resource_pool: xlarge
     networks:
@@ -124,11 +124,11 @@ jobs:
         default: [dns, gateway]
 
   - name: slave
-    template:
-      - gangliamond
-      - datanode
-      - nodemanager
-      - regionserver
+    templates:
+      - name: gangliamond
+      - name: datanode
+      - name: nodemanager
+      - name: regionserver
     instances: <%= num_slaves %>
     resource_pool: slaves
     networks:
